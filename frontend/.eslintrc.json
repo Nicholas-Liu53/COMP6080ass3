@@ -21,10 +21,16 @@
         "react"
     ],
     "rules": {
-        "linebreak-style": 0,
+        // "linebreak-style": 0,
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "semi": 0,
-        "comma-dangle": 0
+        "semi": ["error", "always"], // was 0
+        "comma-dangle": ["error", {
+            "arrays": "always",
+            "objects": "always",
+            "imports": "always",
+            "exports": "always",
+            "functions": "never"
+        }] // was 0
     },
     "settings": {
         "react": {
