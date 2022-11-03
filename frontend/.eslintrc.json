@@ -23,14 +23,9 @@
     "rules": {
         // "linebreak-style": 0,
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "semi": ["error", "always"], // was 0
-        "comma-dangle": ["error", {
-            "arrays": "never",
-            "objects": "never",
-            "imports": "never",
-            "exports": "never",
-            "functions": "never"
-        }] // was 0
+        "semi": 0,
+        "comma-dangle": 0,
+        "eol-last": 0
     },
     "settings": {
         "react": {
