@@ -56,8 +56,13 @@ const App = () => {
     <Context.Provider value={{ getters, setters, }}>
       <Router>
         <body>
-          <nav style={{ display: 'flex', flexDirection: 'row' }}>
-            <Link to='/' style={{ textDecoration: 'none' }}>
+          <nav
+            style={{ display: 'flex', flexDirection: 'row' }}
+          >
+            <Link
+              to='/'
+              style={{ textDecoration: 'none' }}
+            >
               <div height="36px" width="36px">
                 <AirbnbLogo
                   src="./images/Airbnb_Logo_Belo.svg"
