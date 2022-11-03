@@ -5,6 +5,7 @@ import config from './../config.json';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 //* ********************************************************************** */
 //*                       Feature Set 1 - Admin Auth                       */
@@ -89,12 +90,13 @@ export const Register = () => {
             value={password}
             onInput={event => setPasswordConf(event.target.value)}
           />
-          <button
+          <Button
             id='register-button'
+            variant="contained"
             type="submit"
           >
             Register
-          </button>
+          </Button>
         </div>
       </Box>
     </Context.Provider>
@@ -161,12 +163,13 @@ export const LogIn = () => {
               value={password}
               onInput={event => setPassword(event.target.value)}
             />
-            <button
+            <Button
               id='log-in-button'
+              variant="outlined"
               type="submit"
             >
               Log In
-            </button>
+            </Button>
           </div>
         </Box>
       </body>

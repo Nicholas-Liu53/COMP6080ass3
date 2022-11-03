@@ -56,15 +56,23 @@ const App = () => {
     <Context.Provider value={{ getters, setters, }}>
       <Router>
         <body>
-          <nav>
-            <Link to='/'>
-              <AirbnbLogo
-                src="./images/Airbnb_Logo_Belo.svg"
-                alt="Airbnb Logo"
-              />
+          <nav style={{ display: 'flex', flexDirection: 'row' }}>
+            <Link to='/' style={{ textDecoration: 'none' }}>
+              <div height="36px" width="36px">
+                <AirbnbLogo
+                  src="./images/Airbnb_Logo_Belo.svg"
+                  alt="Airbnb Logo"
+                  height="36px"
+                />
+              </div>
             </Link>
             <Button
               id="basic-button"
+              variant="outlined"
+              style={{
+                border: '1px solid grey',
+                borderRadius: '100px'
+              }}
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
@@ -82,10 +90,27 @@ const App = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <Link to='/register'>
-                <MenuItem onClick={handleClose}>Sign Up</MenuItem>
+              <Link
+                to='/register'
+                style={{
+                  textDecoration: 'none',
+                  color: 'black'
+                }}
+              >
+                <MenuItem
+                  onClick={handleClose}
+                  style={{ fontWeight: 'bold' }}
+                >
+                  Sign Up
+                </MenuItem>
               </Link>
-              <Link to='/login'>
+              <Link
+                to='/login'
+                style={{
+                  textDecoration: 'none',
+                  color: 'black'
+                }}
+              >
                 <MenuItem onClick={handleClose}>Log In</MenuItem>
               </Link>
             </Menu>
