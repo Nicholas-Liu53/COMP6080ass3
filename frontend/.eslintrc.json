@@ -25,10 +25,10 @@
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "semi": ["error", "always"], // was 0
         "comma-dangle": ["error", {
-            "arrays": "always",
-            "objects": "always",
-            "imports": "always",
-            "exports": "always",
+            "arrays": "never",
+            "objects": "never",
+            "imports": "never",
+            "exports": "never",
             "functions": "never"
         }] // was 0
     },
