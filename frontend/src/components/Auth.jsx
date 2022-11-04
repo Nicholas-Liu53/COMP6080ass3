@@ -3,6 +3,8 @@ import React from 'react';
 import { Context, useContext } from './../context';
 import config from './../config.json';
 
+// import { useNavigate } from 'react-router-dom';
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -11,6 +13,7 @@ import Button from '@mui/material/Button';
 //*                       Feature Set 1 - Admin Auth                       */
 //* ********************************************************************** */
 
+// Component to Register
 export const Register = () => {
   const { getters, setters } = useContext(Context);
 
@@ -19,10 +22,13 @@ export const Register = () => {
   const [password, setPassword] = React.useState('');
   const [passwordConf, setPasswordConf] = React.useState('');
 
+  // const navigate = useNavigate();
+
   const signup = async (name, email, password, passwordConf) => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/user/auth/register';
 
     if (password !== passwordConf) {
+      alert('Passwords don\'t match!!');
       throw new Error('Passwords don\'t match!!');
     }
 
@@ -40,8 +46,11 @@ export const Register = () => {
         body: JSON.stringify(bodyData)
       });
       const data = await res.json();
-      setters.setToken(data.token);
-      console.log(data.token);
+      console.log(data);
+      if (res.ok) {
+        setters.setToken(data.token);
+        setters.setLoggedInState(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -87,7 +96,7 @@ export const Register = () => {
             label='Password Confirmation'
             type='password'
             autoComplete='current-password'
-            value={password}
+            value={passwordConf}
             onInput={event => setPasswordConf(event.target.value)}
           />
           <Button
@@ -103,11 +112,14 @@ export const Register = () => {
   );
 }
 
+// Component to Log In
 export const LogIn = () => {
   const { getters, setters } = useContext(Context);
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  // const navigate = useNavigate();
 
   const login = async (email, password) => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/user/auth/login';
@@ -125,9 +137,11 @@ export const LogIn = () => {
         body: JSON.stringify(bodyData)
       });
       const data = await res.json();
-      setters.setToken(data.token);
-      setters.setLoggedInState(true);
-      console.log(data.token);
+      console.log(data);
+      if (res.ok) {
+        setters.setToken(data.token);
+        setters.setLoggedInState(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -175,4 +189,28 @@ export const LogIn = () => {
       </body>
     </Context.Provider>
   );
+}
+
+// Function to log out
+// NOTE: This is a FUNCTION not a component
+export const logOut = async (token) => {
+  const url = config.PREPORT_URL + config.BACKEND_PORT + '/user/auth/logout';
+
+  // const { getters, setters } = useContext(Context);
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await res.json();
+    console.log(data);
+    // setters.setToken('');
+    // setters.setLoggedInState(false);
+  } catch (err) {
+    console.log(err);
+  }
 }

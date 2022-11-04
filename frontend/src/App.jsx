@@ -3,7 +3,7 @@ import React from 'react';
 
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   Link
 } from 'react-router-dom';
@@ -12,7 +12,7 @@ import {
 import './App.css';
 
 import { Context, initialValue } from './context';
-import { Register, LogIn } from './components/Auth';
+import { Register, LogIn, logOut } from './components/Auth';
 // import { Navbar } from './components/Navbar';
 
 import { ReactComponent as AirbnbLogo } from './images/Airbnb_Logo_Belo.svg';
@@ -104,7 +104,10 @@ const App = () => {
               >
                 <MenuItem
                   onClick={handleClose}
-                  style={{ fontWeight: 'bold' }}
+                  style={{
+                    fontWeight: 'bold',
+                    display: !loggedInState ? 'block' : 'none'
+                  }}
                 >
                   Sign Up
                 </MenuItem>
@@ -116,20 +119,43 @@ const App = () => {
                   color: 'black'
                 }}
               >
-                <MenuItem onClick={handleClose}>Log In</MenuItem>
+                <MenuItem
+                  onClick={handleClose}
+                  style={{
+                    display: !loggedInState ? 'block' : 'none'
+                  }}
+                >
+                  Log In
+                </MenuItem>
+              </Link>
+              <Link
+                to='/'
+                style={{
+                  textDecoration: 'none',
+                  color: 'black'
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    logOut(getters.token)
+                    setters.setToken('')
+                    setters.setLoggedInState(false)
+                  }}
+                  style={{
+                    fontWeight: 'bold',
+                    display: loggedInState ? 'block' : 'none'
+                  }}
+                >
+                  Log Out
+                </MenuItem>
               </Link>
             </Menu>
           </nav>
-          <Switch>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/login">
-            <LogIn />
-          </Route>
-          <Route path="/">
-          </Route>
-        </Switch>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/" element={<></>}/>
+          </Routes>
         </body>
       </Router>
     </Context.Provider>
