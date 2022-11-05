@@ -3,7 +3,7 @@ import React from 'react';
 import { Context, useContext } from './../context';
 import config from './../config.json';
 
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -22,7 +22,7 @@ export const Register = () => {
   const [password, setPassword] = React.useState('');
   const [passwordConf, setPasswordConf] = React.useState('');
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const signup = async (name, email, password, passwordConf) => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/user/auth/register';
@@ -47,9 +47,10 @@ export const Register = () => {
       });
       const data = await res.json();
       console.log(data);
-      if (res.ok) {
+      if (data.token) {
         setters.setToken(data.token);
         setters.setLoggedInState(true);
+        navigate('/');
       }
     } catch (err) {
       console.log(err);
@@ -119,7 +120,7 @@ export const LogIn = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const login = async (email, password) => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/user/auth/login';
@@ -138,9 +139,10 @@ export const LogIn = () => {
       });
       const data = await res.json();
       console.log(data);
-      if (res.ok) {
+      if (data.token) {
         setters.setToken(data.token);
         setters.setLoggedInState(true);
+        navigate('/');
       }
     } catch (err) {
       console.log(err);

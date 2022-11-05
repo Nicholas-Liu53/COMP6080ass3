@@ -13,7 +13,7 @@ import './App.css';
 
 import { Context, initialValue } from './context';
 import { Register, LogIn, logOut } from './components/Auth';
-// import { Navbar } from './components/Navbar';
+import { /* ListingCard, ListingScreen, */NewEditListingButton } from './components/Listing';
 
 import { ReactComponent as AirbnbLogo } from './images/Airbnb_Logo_Belo.svg';
 
@@ -37,12 +37,6 @@ const App = () => {
     setLoggedInState,
   };
 
-  //* ********************************************************************** */
-  //*                       Feature Set 1 - Admin Auth                       */
-  //* ********************************************************************** */
-
-  // const { getters } = useContext(Context);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -57,7 +51,13 @@ const App = () => {
       <Router>
         <body>
           <nav
-            style={{ display: 'flex', flexDirection: 'row' }}
+            id='mainNavBar'
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100vw',
+              justifyContent: 'space-between'
+            }}
           >
             <Link
               to='/'
@@ -71,6 +71,9 @@ const App = () => {
                 />
               </div>
             </Link>
+            <NewEditListingButton 
+              style={{ display: loggedInState ? 'block' : 'none' }}
+            />
             <Button
               id="basic-button"
               variant="outlined"
@@ -129,6 +132,22 @@ const App = () => {
                 </MenuItem>
               </Link>
               <Link
+                to='/my-listings'
+                style={{
+                  textDecoration: 'none',
+                  color: 'black'
+                }}
+              >
+                <MenuItem
+                  onClick={handleClose}
+                  style={{
+                    display: loggedInState ? 'block' : 'none'
+                  }}
+                >
+                  My Listings
+                </MenuItem>
+              </Link>
+              <Link
                 to='/'
                 style={{
                   textDecoration: 'none',
@@ -154,6 +173,7 @@ const App = () => {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />
+            <Route path="/my-listings" element={<></>} />
             <Route path="/" element={<></>}/>
           </Routes>
         </body>
