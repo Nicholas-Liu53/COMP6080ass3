@@ -13,7 +13,7 @@ import './App.css';
 
 import { Context, initialValue } from './context';
 import { Register, LogIn, logOut } from './components/Auth';
-import { /* ListingCard, ListingScreen, */NewEditListingButton } from './components/Listing';
+// import { /* ListingCard, ListingScreen, */NewListingButton } from './components/Listing';
 
 import { ReactComponent as AirbnbLogo } from './images/Airbnb_Logo_Belo.svg';
 
@@ -71,9 +71,9 @@ const App = () => {
                 />
               </div>
             </Link>
-            <NewEditListingButton 
+            {/* <NewListingButton
               style={{ display: loggedInState ? 'block' : 'none' }}
-            />
+            /> */}
             <Button
               id="basic-button"
               variant="outlined"
