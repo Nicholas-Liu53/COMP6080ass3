@@ -127,6 +127,7 @@ export const NewListingButton = () => {
         <DialogTitle id="scroll-dialog-title">Create a new listing</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           {/* Thumbnail */}
+          <img src={thumbnail} alt="Listing Thumbnail" />
           <Button
             variant="contained"
             component="label"
@@ -135,6 +136,7 @@ export const NewListingButton = () => {
             <input 
               type="file"
               hidden
+              onChange={event => setThumbnail(event.target.value)}
             />
           </Button>
           {/* Title */}
@@ -146,6 +148,21 @@ export const NewListingButton = () => {
             variant="filled"
             onInput={event => setTitle(event.target.value)}
           />
+          {/* Property Type */}
+          <TextField
+            id="outlined-select-currency"
+            select
+            label="Select"
+            value={propertyType}
+            onChange={event => setPropertyType(event.target.value)}
+            helperText="Please select your property type"
+          >
+            {properties.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.value}
+              </MenuItem>
+            ))}
+          </TextField>
           {/* 1. Address Line */}
           <TextField
             id="addressLine1"
@@ -231,7 +248,7 @@ export const NewListingButton = () => {
                   srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                   alt=""
                 />
-                {option.label} ({option.code}) +{option.phone}
+                {option.label}
               </Box>
             )}
             renderInput={(params) => (
@@ -283,6 +300,7 @@ export const NewListingButton = () => {
   );
 }
 
+//* Select variables 
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
 const countries = [
   { code: 'AD', label: 'Andorra' },
@@ -665,4 +683,16 @@ const countries = [
   { code: 'ZA', label: 'South Africa' },
   { code: 'ZM', label: 'Zambia' },
   { code: 'ZW', label: 'Zimbabwe' },
+];
+
+const properties = [
+  {
+    value: 'Entire place'
+  },
+  {
+    value: 'Private room'
+  },
+  {
+    value: 'Shared room'
+  },
 ];
