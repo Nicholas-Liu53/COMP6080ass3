@@ -57,7 +57,11 @@ export const NewListingButton = () => {
   const [price, setPrice] = React.useState(0);
 
   const [propertyType, setPropertyType] = React.useState('');
-  const [metadata, setMetadata] = React.useState({});
+  const [numBathrooms, setNumBathrooms] = React.useState(0);
+  const [bedroomDeets, setBedroomDeets] = React.useState([]);
+  const [metadata, setMetadata] = React.useState({
+    propertyType: propertyType,
+  });
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -68,7 +72,7 @@ export const NewListingButton = () => {
     setOpen(false);
   };
 
-  const updateCreate = async (title, address, thumbnail, price, metadata ) => {
+  const updateCreate = async (title, address, thumbnail, price, metadata) => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/listings/new';
 
     const bodyData = {
