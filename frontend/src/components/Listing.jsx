@@ -6,14 +6,22 @@ import config from './../config.json';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
+import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
 // Imports for Dialogue
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+// import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 //* ********************************************************************** */
@@ -21,13 +29,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 //* ********************************************************************** */
 
 export const ListingCard = () => {
-  const { getters, setters } = useContext(Context);
-
+  // const { getters, setters } = useContext(Context);
 }
 
 export const ListingScreen = () => {
-  const { getters, setters } = useContext(Context);
-
+  // const { getters, setters } = useContext(Context);
 }
 
 export const NewListingButton = () => {
@@ -46,6 +52,7 @@ export const NewListingButton = () => {
   const [province, setProvince] = React.useState('');
   const [postcode, setPostcode] = React.useState('');
   const [country, setCountry] = React.useState('');
+  //! UPDATE THIS IN FETCH
   const [address, setAddress] = React.useState({
     addressLine1: addressLine1,
     locality: locality,
@@ -58,9 +65,21 @@ export const NewListingButton = () => {
 
   const [propertyType, setPropertyType] = React.useState('');
   const [numBathrooms, setNumBathrooms] = React.useState(0);
+  //! This one is complicated
+  const [bedroomCounter, setBedroomCounter] = React.useState(0);
+  const [bedroomBeds, setBedroomBeds] = React.useState({
+    bedroomId: bedroomCounter,
+    king: 0,
+    queen: 0,
+    double: 0,
+    single: 0
+  });
   const [bedroomDeets, setBedroomDeets] = React.useState([]);
+  //! UPDATE THIS IN FETCH
   const [metadata, setMetadata] = React.useState({
     propertyType: propertyType,
+    numBathrooms: numBathrooms,
+    bedroomDeets: bedroomDeets
   });
 
   const handleClickOpen = (scrollType) => () => {
@@ -72,8 +91,24 @@ export const NewListingButton = () => {
     setOpen(false);
   };
 
-  const updateCreate = async (title, address, thumbnail, price, metadata) => {
+  const createClose = async () => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/listings/new';
+
+    // Set address
+    setAddress({
+      addressLine1: addressLine1,
+      locality: locality,
+      province: province,
+      postcode: postcode,
+      country: country
+    });
+
+    // Set metadata
+    setMetadata({
+      propertyType: propertyType,
+      numBathrooms: numBathrooms,
+      bedroomDeets: bedroomDeets
+    });
 
     const bodyData = {
       title: title,
@@ -87,7 +122,7 @@ export const NewListingButton = () => {
       const res = await fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + getters.token,
+          Authorization: 'Bearer ' + getters.token,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(bodyData)
@@ -95,7 +130,6 @@ export const NewListingButton = () => {
 
       const data = await res.json();
       console.log(data);
-
     } catch (err) {
       console.log(err);
     }
@@ -117,7 +151,7 @@ export const NewListingButton = () => {
     <>
       <Button
         onClick={handleClickOpen('paper')}
-        endIcon={<AddLocationAltIcon />} 
+        endIcon={<AddLocationAltIcon />}
       >
         Create New Listing
       </Button>
@@ -137,7 +171,7 @@ export const NewListingButton = () => {
             component="label"
           >
             Upload Image
-            <input 
+            <input
               type="file"
               hidden
               onChange={event => setThumbnail(event.target.value)}
@@ -174,16 +208,7 @@ export const NewListingButton = () => {
             type="text"
             fullWidth
             variant="standard"
-            onInput= {(event) => {
-              setAddressLine1(event.target.value);
-              setAddress({
-                addressLine1: addressLine1,
-                locality: locality,
-                province: province,
-                postcode: postcode,
-                country: country
-              });
-            }}
+            onInput= {event => setAddressLine1(event.target.value)}
           />
           {/* 2. Locality/Suburb/City */}
           <TextField
@@ -191,16 +216,7 @@ export const NewListingButton = () => {
             label="Locality/Suburb/City"
             type="text"
             variant="outlined"
-            onInput= {(event) => {
-              setLocality(event.target.value);
-              setAddress({
-                addressLine1: addressLine1,
-                locality: locality,
-                province: province,
-                postcode: postcode,
-                country: country
-              });
-            }}
+            onInput= {event => setLocality(event.target.value)}
           />
           {/* 3. State/Province */}
           <TextField
@@ -208,16 +224,7 @@ export const NewListingButton = () => {
             label="State/Province"
             type="text"
             variant="outlined"
-            onInput= {(event) => {
-              setProvince(event.target.value);
-              setAddress({
-                addressLine1: addressLine1,
-                locality: locality,
-                province: province,
-                postcode: postcode,
-                country: country
-              });
-            }}
+            onInput= {event => setProvince(event.target.value)}
           />
           {/* 4. Postcode */}
           <TextField
@@ -225,16 +232,7 @@ export const NewListingButton = () => {
             label="Postcode"
             type="text"
             variant="outlined"
-            onInput= {(event) => {
-              setPostcode(event.target.value);
-              setAddress({
-                addressLine1: addressLine1,
-                locality: locality,
-                province: province,
-                postcode: postcode,
-                country: country
-              });
-            }}
+            onInput= {event => setPostcode(event.target.value)}
           />
           {/* 5. Country */}
           <Autocomplete
@@ -263,16 +261,7 @@ export const NewListingButton = () => {
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
                 }}
-                onChange={(event, newValue) => {
-                  setCountry(newValue)
-                  setAddress({
-                    addressLine1: addressLine1,
-                    locality: locality,
-                    province: province,
-                    postcode: postcode,
-                    country: country
-                  });
-                }}
+                onChange={(event, newValue) => setCountry(newValue)}
               />
             )}
           />
@@ -288,23 +277,238 @@ export const NewListingButton = () => {
             variant="standard"
             onChange={event => setPrice(event.target.value)}
           />
-          <TextField 
-
+          {/* Bathrooms */}
+          <TextField
+            id="numBathrooms"
+            label="Bathrooms"
+            type="number"
+            InputLabelProps={{
+              shrink: true
+            }}
+            variant="outlined"
+            onChange={event => setNumBathrooms(event.target.value)}
           />
+          {/* Bedrooms geeez */}
+          <section id="bedroomsSection">
+            {
+              bedroomDeets.map(details => {
+                return (
+                  //! THIS PART BREAKS
+                  <div key="">
+                    <Stack direction="row" spacing={1}>
+                      <IconButton
+                        aria-label="decrementKing"
+                        onClick={() => {
+                          if (details.king > 0) {
+                            setBedroomBeds({
+                              bedroomId: details.bedroomId,
+                              king: details.king - 1,
+                              queen: details.queen,
+                              double: details.double,
+                              single: details.single
+                            });
+                            const newBedroomDeets = bedroomDeets.map(obj => {
+                              if (obj.bedroomId === details.bedroomId) {
+                                return bedroomBeds;
+                              }
+                              return obj;
+                            })
+                            setBedroomDeets(newBedroomDeets);
+                          }
+                        }}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      { 'King beds: ' + details.king }
+                      <IconButton
+                        aria-label="incrementKing"
+                        onClick={() => {
+                          setBedroomBeds({
+                            bedroomId: details.bedroomId,
+                            king: details.king + 1,
+                            queen: details.queen,
+                            double: details.double,
+                            single: details.single
+                          });
+                          const newBedroomDeets = bedroomDeets.map(obj => {
+                            if (obj.bedroomId === details.bedroomId) {
+                              return bedroomBeds;
+                            }
+                            return obj;
+                          })
+                          setBedroomDeets(newBedroomDeets);
+                        }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton
+                        aria-label="decrementQueen"
+                        onClick={() => {
+                          if (details.queen > 0) {
+                            setBedroomBeds({
+                              bedroomId: details.bedroomId,
+                              king: details.king,
+                              queen: details.queen - 1,
+                              double: details.double,
+                              single: details.single
+                            });
+                            const newBedroomDeets = bedroomDeets.map(obj => {
+                              if (obj.bedroomId === details.bedroomId) {
+                                return bedroomBeds;
+                              }
+                              return obj;
+                            })
+                            setBedroomDeets(newBedroomDeets);
+                          }
+                        }}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      { 'Queen beds: ' + details.queen }
+                      <IconButton
+                        aria-label="incrementQueen"
+                        onClick={() => {
+                          setBedroomBeds({
+                            bedroomId: details.bedroomId,
+                            king: details.king,
+                            queen: details.queen + 1,
+                            double: details.double,
+                            single: details.single
+                          });
+                          const newBedroomDeets = bedroomDeets.map(obj => {
+                            if (obj.bedroomId === details.bedroomId) {
+                              return bedroomBeds;
+                            }
+                            return obj;
+                          })
+                          setBedroomDeets(newBedroomDeets);
+                        }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton
+                        aria-label="decrementDouble"
+                        onClick={() => {
+                          if (details.double > 0) {
+                            setBedroomBeds({
+                              bedroomId: details.bedroomId,
+                              king: details.king,
+                              queen: details.queen,
+                              double: details.double - 1,
+                              single: details.single
+                            });
+                            const newBedroomDeets = bedroomDeets.map(obj => {
+                              if (obj.bedroomId === details.bedroomId) {
+                                return bedroomBeds;
+                              }
+                              return obj;
+                            })
+                            setBedroomDeets(newBedroomDeets);
+                          }
+                        }}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      { 'Double beds: ' + details.double }
+                      <IconButton
+                        aria-label="incrementDouble"
+                        onClick={() => {
+                          setBedroomBeds({
+                            bedroomId: details.bedroomId,
+                            king: details.king,
+                            queen: details.queen,
+                            double: details.double + 1,
+                            single: details.single
+                          });
+                          const newBedroomDeets = bedroomDeets.map(obj => {
+                            if (obj.bedroomId === details.bedroomId) {
+                              return bedroomBeds;
+                            }
+                            return obj;
+                          })
+                          setBedroomDeets(newBedroomDeets);
+                        }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton
+                        aria-label="decrementSingle"
+                        onClick={() => {
+                          if (details.single > 0) {
+                            setBedroomBeds({
+                              bedroomId: details.bedroomId,
+                              king: details.king,
+                              queen: details.queen,
+                              double: details.double,
+                              single: details.single - 1
+                            });
+                            const newBedroomDeets = bedroomDeets.map(obj => {
+                              if (obj.bedroomId === details.bedroomId) {
+                                return bedroomBeds;
+                              }
+                              return obj;
+                            })
+                            setBedroomDeets(newBedroomDeets);
+                          }
+                        }}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      { 'Single beds: ' + details.single }
+                      <IconButton
+                        aria-label="incrementSingle"
+                        onClick={() => {
+                          setBedroomBeds({
+                            bedroomId: details.bedroomId,
+                            king: details.king,
+                            queen: details.queen,
+                            double: details.double,
+                            single: details.single + 1
+                          });
+                          const newBedroomDeets = bedroomDeets.map(obj => {
+                            if (obj.bedroomId === details.bedroomId) {
+                              return bedroomBeds;
+                            }
+                            return obj;
+                          })
+                          setBedroomDeets(newBedroomDeets);
+                        }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
+                  </div>
+                );
+              })
+            }
+            <Button
+              variant="contained"
+              onClick={() => {
+                setBedroomDeets(bedroomDeets.push(bedroomBeds))
+                setBedroomCounter(bedroomCounter + 1)
+              }}
+            >
+              Add Bedroom
+            </Button>
+          </section>
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            onClick={updateCreate}
-            value={ editId ? 'Update' : 'Create' }
-          />
+          <Button onClick={createClose}>Create</Button>
         </DialogActions>
       </Dialog>
     </>
   );
 }
 
-//* Select variables 
+//* Select variables
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
 const countries = [
   { code: 'AD', label: 'Andorra' },
