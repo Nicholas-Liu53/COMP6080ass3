@@ -23,6 +23,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 // import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+// import { ContactSupport } from '@mui/icons-material';
 
 //* ********************************************************************** */
 //*    Feature Set 2 - Creating & Editing & Publishing a Hosted Listing    */
@@ -67,9 +68,9 @@ export const NewListingButton = (props) => {
   const [propertyType, setPropertyType] = React.useState('');
   const [numBathrooms, setNumBathrooms] = React.useState(0);
   //! This one is complicated
-  const [bedroomCounter, setBedroomCounter] = React.useState(0);
+  const [bedroomCounter, setBedroomCounter] = React.useState(2);
   const [bedroomBeds, setBedroomBeds] = React.useState({
-    bedroomId: bedroomCounter,
+    bedroomId: 1,
     king: 0,
     queen: 0,
     double: 0,
@@ -294,6 +295,7 @@ export const NewListingButton = (props) => {
           <section id="bedroomsSection">
             {
               bedroomDeets.map(details => {
+                console.log(details);
                 return (
                   //! THIS PART BREAKS
                   <div key={details.bedroomId}>
@@ -302,6 +304,7 @@ export const NewListingButton = (props) => {
                       <IconButton
                         aria-label="decrementKing"
                         onClick={() => {
+                          console.log('Before1', details, 'Before2', bedroomBeds);
                           if (details.king > 0) {
                             setBedroomBeds({
                               bedroomId: details.bedroomId,
@@ -317,6 +320,7 @@ export const NewListingButton = (props) => {
                               return obj;
                             })
                             setBedroomDeets(newBedroomDeets);
+                            console.log('Before3', details, 'Before4', bedroomBeds);
                           }
                         }}
                       >
@@ -326,6 +330,7 @@ export const NewListingButton = (props) => {
                       <IconButton
                         aria-label="incrementKing"
                         onClick={() => {
+                          console.log('Before1', details, 'Before2', bedroomBeds);
                           setBedroomBeds({
                             bedroomId: details.bedroomId,
                             king: details.king + 1,
@@ -340,6 +345,7 @@ export const NewListingButton = (props) => {
                             return obj;
                           })
                           setBedroomDeets(newBedroomDeets);
+                          console.log('Before3', details, 'Before4', bedroomBeds);
                         }}
                       >
                         <AddIcon />
@@ -489,7 +495,9 @@ export const NewListingButton = (props) => {
                     <Button
                       variant="outlined"
                       onClick={() => {
-                        setBedroomDeets(bedroomDeets => bedroomDeets.filter(bedroomBeds => bedroomBeds.id === details.id))
+                        console.log(bedroomDeets);
+                        setBedroomDeets(bedroomDeets => bedroomDeets.filter(bedroomBeds => bedroomBeds.bedroomId === details.bedroomId))
+                        console.log(bedroomDeets);
                       }}
                     >
                       Delete Bedroom
@@ -501,15 +509,18 @@ export const NewListingButton = (props) => {
             <Button
               variant="contained"
               onClick={() => {
-                setBedroomDeets(bedroomDeets => [...bedroomDeets, bedroomBeds])
                 setBedroomCounter(bedroomCounter + 1)
-                setBedroomBeds({
-                  bedroomId: bedroomCounter,
-                  king: 0,
-                  queen: 0,
-                  double: 0,
-                  single: 0
-                });
+                if (bedroomCounter > 1) {
+                  setBedroomDeets(bedroomDeets => [...bedroomDeets, bedroomBeds]);
+                }
+                // setBedroomBeds({
+                //   bedroomId: bedroomCounter,
+                //   king: 0,
+                //   queen: 0,
+                //   double: 0,
+                //   single: 0
+                // });
+                console.log(bedroomDeets);
               }}
             >
               Add Bedroom
