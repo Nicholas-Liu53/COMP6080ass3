@@ -25,7 +25,8 @@
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "semi": 0,
         "comma-dangle": 0,
-        "eol-last": 0
+        "eol-last": 0,
+        "react/prop-types": "off"
     },
     "settings": {
         "react": {

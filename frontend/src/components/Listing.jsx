@@ -36,7 +36,8 @@ export const ListingScreen = () => {
   // const { getters, setters } = useContext(Context);
 }
 
-export const NewListingButton = () => {
+export const NewListingButton = (props) => {
+  const { loggedInState } = props;
   const { getters } = useContext(Context);
 
   const [open, setOpen] = React.useState(false);
@@ -150,6 +151,7 @@ export const NewListingButton = () => {
   return (
     <>
       <Button
+        style={{ display: loggedInState ? 'inline-flex' : 'none' }}
         onClick={handleClickOpen('paper')}
         endIcon={<AddLocationAltIcon />}
       >
@@ -271,7 +273,7 @@ export const NewListingButton = () => {
             label="Price (per night)"
             type="number"
             InputLabelProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              startadornment: <InputAdornment position="start">$</InputAdornment>,
               shrink: true
             }}
             variant="standard"
@@ -294,7 +296,8 @@ export const NewListingButton = () => {
               bedroomDeets.map(details => {
                 return (
                   //! THIS PART BREAKS
-                  <div key="">
+                  <div key={details.bedroomId}>
+                    <h5>Bedroom {details.bedroomId}</h5>
                     <Stack direction="row" spacing={1}>
                       <IconButton
                         aria-label="decrementKing"
@@ -483,6 +486,14 @@ export const NewListingButton = () => {
                         <AddIcon />
                       </IconButton>
                     </Stack>
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        setBedroomDeets(bedroomDeets => bedroomDeets.filter(bedroomBeds => bedroomBeds.id === details.id))
+                      }}
+                    >
+                      Delete Bedroom
+                    </Button>
                   </div>
                 );
               })
@@ -490,8 +501,15 @@ export const NewListingButton = () => {
             <Button
               variant="contained"
               onClick={() => {
-                setBedroomDeets(bedroomDeets.push(bedroomBeds))
+                setBedroomDeets(bedroomDeets => [...bedroomDeets, bedroomBeds])
                 setBedroomCounter(bedroomCounter + 1)
+                setBedroomBeds({
+                  bedroomId: bedroomCounter,
+                  king: 0,
+                  queen: 0,
+                  double: 0,
+                  single: 0
+                });
               }}
             >
               Add Bedroom

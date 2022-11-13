@@ -72,7 +72,7 @@ const App = () => {
               </div>
             </Link>
             <NewListingButton
-              style={{ display: loggedInState ? 'block' : 'none' }}
+              loggedInState={loggedInState}
             />
             <Button
               id="basic-button"
@@ -170,6 +170,7 @@ const App = () => {
               </Link>
             </Menu>
           </nav>
+          <h1>loggedInState: {String(loggedInState)}</h1>
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />
