@@ -151,7 +151,7 @@ export const LogIn = () => {
 
   return (
     <Context.Provider value={{ getters, setters, }}>
-      <body>
+      <>
         <Box
           component="form"
           sx={{
@@ -188,7 +188,7 @@ export const LogIn = () => {
             </Button>
           </div>
         </Box>
-      </body>
+      </>
     </Context.Provider>
   );
 }

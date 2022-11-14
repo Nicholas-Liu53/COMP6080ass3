@@ -49,7 +49,7 @@ const App = () => {
   return (
     <Context.Provider value={{ getters, setters, }}>
       <Router>
-        <body>
+        <>
           <nav
             id='mainNavBar'
             style={{
@@ -177,7 +177,7 @@ const App = () => {
             <Route path="/my-listings" element={<></>} />
             <Route path="/" element={<></>}/>
           </Routes>
-        </body>
+        </>
       </Router>
     </Context.Provider>
   );
