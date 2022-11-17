@@ -13,11 +13,17 @@ import './App.css';
 
 import { Context, initialValue } from './context';
 import { Register, LogIn, logOut } from './components/Auth';
-import { /* ListingCard, ListingScreen, */NewListingButton } from './components/Listing';
+import { AllListingsScreen, EditListingScreen, ListingScreen, MyListingScreen, NewListingButton } from './components/Listing';
 
 import { ReactComponent as AirbnbLogo } from './images/Airbnb_Logo_Belo.svg';
 
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+
+import Stack from '@mui/material/Stack';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -27,14 +33,27 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const App = () => {
   const [token, setToken] = React.useState(initialValue.token);
   const [loggedInState, setLoggedInState] = React.useState(initialValue.loggedIn);
+  const [loggedInEmail, setLoggedInEmail] = React.useState(initialValue.loggedInEmail);
+  const [listingToBeViewed, setListingToBeViewed] = React.useState(initialValue.listingToBeViewed);
+  const [reRenderPls, setReRenderPls] = React.useState(initialValue.reRenderPls);
+  const [searchTermInProgress, setSearchTermInProgress] = React.useState(initialValue.searchTerm);
+  const [searchTerm, setSearchTerm] = React.useState(initialValue.searchTerm);
 
   const getters = {
     token,
     loggedInState,
+    loggedInEmail,
+    listingToBeViewed,
+    reRenderPls,
+    searchTerm
   };
   const setters = {
     setToken,
     setLoggedInState,
+    setLoggedInEmail,
+    setListingToBeViewed,
+    setReRenderPls,
+    setSearchTerm
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -71,6 +90,25 @@ const App = () => {
                 />
               </div>
             </Link>
+            <Stack
+              sx={{ display: 'flex', flexDirection: 'row' }}
+            >
+              <TextField
+                id="searchBar"
+                label="Search Bar"
+                variant="standard"
+                onChange={event => setSearchTermInProgress(event.target.value)}
+              />
+              <IconButton
+                color="primary"
+                variant="contained"
+                onClick={() => {
+                  setters.setSearchTerm(searchTermInProgress)
+                }}
+              >
+                <SearchIcon color="disabled" />
+              </IconButton>
+            </Stack>
             <NewListingButton
               loggedInState={loggedInState}
             />
@@ -159,6 +197,7 @@ const App = () => {
                     logOut(getters.token)
                     setters.setToken('')
                     setters.setLoggedInState(false)
+                    setters.setLoggedInEmail('');
                   }}
                   style={{
                     fontWeight: 'bold',
@@ -170,12 +209,13 @@ const App = () => {
               </Link>
             </Menu>
           </nav>
-          <h1>loggedInState: {String(loggedInState)}</h1>
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LogIn />} />
-            <Route path="/my-listings" element={<></>} />
-            <Route path="/" element={<></>}/>
+            <Route path={'/listing/:listingId'} element={<ListingScreen listingId={getters.listingToBeViewed}/>} />
+            <Route path={'/listing/edit/:listingId'} element={<EditListingScreen listingId={getters.listingToBeViewed}/>} />
+            <Route path="/my-listings" element={<MyListingScreen />} />
+            <Route path="/" element={<AllListingsScreen />}/>
           </Routes>
         </>
       </Router>

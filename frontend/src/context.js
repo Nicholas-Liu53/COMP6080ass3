@@ -1,9 +1,13 @@
-import React from 'react';
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 
 export const initialValue = {
   token: '',
-  loggedIn: false
+  loggedIn: false,
+  loggedInEmail: '',
+  listingToBeViewed: -1,
+  reRenderPls: true,
+  searchTermInProgress: '',
+  searchTerm: ''
 };
 
 export const Context = createContext(initialValue);

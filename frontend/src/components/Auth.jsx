@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+import Typography from '@mui/material/Typography';
+
 //* ********************************************************************** */
 //*                       Feature Set 1 - Admin Auth                       */
 //* ********************************************************************** */
@@ -50,6 +52,7 @@ export const Register = () => {
       if (data.token) {
         setters.setToken(data.token);
         setters.setLoggedInState(true);
+        setters.setLoggedInEmail(email);
         navigate('/');
       }
     } catch (err) {
@@ -63,6 +66,10 @@ export const Register = () => {
         component="form"
         sx={{
           '& .MuiTextField-root': { m: 1, width: '25ch' },
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
         }}
         noValidate
         autoComplete="off"
@@ -71,7 +78,18 @@ export const Register = () => {
           signup(name, email, password, passwordConf)
         }}
       >
-        <div>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: '50px'
+          }}
+        >
+          <Typography variant="h5" >
+            Sign Up
+          </Typography>
           <TextField
             id='register-name-input'
             label='Name'
@@ -107,7 +125,7 @@ export const Register = () => {
           >
             Register
           </Button>
-        </div>
+        </Box>
       </Box>
     </Context.Provider>
   );
@@ -142,6 +160,7 @@ export const LogIn = () => {
       if (data.token) {
         setters.setToken(data.token);
         setters.setLoggedInState(true);
+        setters.setLoggedInEmail(email);
         navigate('/');
       }
     } catch (err) {
@@ -150,7 +169,7 @@ export const LogIn = () => {
   }
 
   return (
-    <Context.Provider value={{ getters, setters, }}>
+    <Context.Provider value={{ getters, setters }}>
       <>
         <Box
           component="form"
@@ -164,10 +183,22 @@ export const LogIn = () => {
             login(email, password)
           }}
         >
-          <div>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginTop: '50px'
+            }}
+          >
+            <Typography variant="h5" >
+              Log In
+            </Typography>
             <TextField
               id='login-email-input'
               label='Email'
+              autoComplete='username'
               value={email}
               onInput={event => setEmail(event.target.value)}
             />
@@ -186,7 +217,7 @@ export const LogIn = () => {
             >
               Log In
             </Button>
-          </div>
+          </Box>
         </Box>
       </>
     </Context.Provider>
