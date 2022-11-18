@@ -5,5 +5,8 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.12",
     "react-router-dom": "^6.4.3"
+  },
+  "devDependencies": {
+    "cypress": "^11.1.0"
   }
 }

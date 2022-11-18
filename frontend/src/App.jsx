@@ -100,6 +100,7 @@ const App = () => {
                 onChange={event => setSearchTermInProgress(event.target.value)}
               />
               <IconButton
+                id="searchButton"
                 color="primary"
                 variant="contained"
                 onClick={() => {
@@ -113,7 +114,7 @@ const App = () => {
               loggedInState={loggedInState}
             />
             <Button
-              id="basic-button"
+              id="user-menu-button"
               variant="outlined"
               style={{
                 border: '1px solid grey',
@@ -144,6 +145,7 @@ const App = () => {
                 }}
               >
                 <MenuItem
+                  id="signup-nav-button"
                   onClick={handleClose}
                   style={{
                     fontWeight: 'bold',
@@ -161,6 +163,7 @@ const App = () => {
                 }}
               >
                 <MenuItem
+                  id="login-nav-button"
                   onClick={handleClose}
                   style={{
                     display: !loggedInState ? 'block' : 'none'
@@ -177,6 +180,7 @@ const App = () => {
                 }}
               >
                 <MenuItem
+                  id="my-listing-nav-button"
                   onClick={handleClose}
                   style={{
                     display: loggedInState ? 'block' : 'none'
@@ -193,6 +197,7 @@ const App = () => {
                 }}
               >
                 <MenuItem
+                  id="logout-button"
                   onClick={() => {
                     logOut(getters.token)
                     setters.setToken('')

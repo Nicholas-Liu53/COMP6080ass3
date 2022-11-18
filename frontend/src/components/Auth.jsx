@@ -29,6 +29,11 @@ export const Register = () => {
   const signup = async (name, email, password, passwordConf) => {
     const url = config.PREPORT_URL + config.BACKEND_PORT + '/user/auth/register';
 
+    if (!(/\S+@\S+\.\S+/.test(email))) {
+      alert('Email is not a valid email!!');
+      throw new Error('Email is not a valid email!!');
+    }
+
     if (password !== passwordConf) {
       alert('Passwords don\'t match!!');
       throw new Error('Passwords don\'t match!!');
@@ -91,18 +96,21 @@ export const Register = () => {
             Sign Up
           </Typography>
           <TextField
+            name='register-name-input'
             id='register-name-input'
             label='Name'
             value={name}
             onInput={event => setName(event.target.value)}
           />
           <TextField
+            name='register-email-input'
             id='register-email-input'
             label='Email'
             value={email}
             onInput={event => setEmail(event.target.value)}
           />
           <TextField
+            name='register-password-input'
             id='register-password-input'
             label='Password'
             type='password'
@@ -111,6 +119,7 @@ export const Register = () => {
             onInput={event => setPassword(event.target.value)}
           />
           <TextField
+            name='register-password-conf-input'
             id='register-password-conf-input'
             label='Password Confirmation'
             type='password'

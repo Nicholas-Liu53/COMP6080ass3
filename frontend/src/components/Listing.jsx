@@ -319,9 +319,14 @@ export const ListingCard = (props) => {
               </Typography>
             </CardContent>
           </CardActionArea>
-          <CardActions>
+          <CardActions
+            sx={{
+              height: '46.75px'
+            }}
+          >
             { !(listingDetails.published) && ownListing &&
               <Button
+                id="publishListingBtn"
                 size="small"
                 color="primary"
                 onClick={handleClickOpenPub(scroll)}
@@ -331,6 +336,7 @@ export const ListingCard = (props) => {
             }
             { listingDetails.published && ownListing &&
               <Button
+                id="unpublishListingBtn"
                 size="small"
                 color="primary"
                 onClick={unpublishListing}
@@ -340,6 +346,7 @@ export const ListingCard = (props) => {
             }
             { ownListing &&
               <Button
+                id="editListing"
                 size="small"
                 color="primary"
                 onClick={() => setEditListing(true)}
@@ -349,6 +356,7 @@ export const ListingCard = (props) => {
             }
             { ownListing &&
               <Button
+                id="deleteListing"
                 size="small"
                 color="primary"
                 onClick={handleClickOpen}
@@ -372,7 +380,7 @@ export const ListingCard = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>No</Button>
-          <Button onClick={handleCloseYes}>Yes</Button>
+          <Button id="yesDelete" onClick={handleCloseYes}>Yes</Button>
         </DialogActions>
       </Dialog>
       <Dialog
@@ -393,6 +401,7 @@ export const ListingCard = (props) => {
                   <Box key={avail.availId}>
                     <Stack>
                       <TextField
+                        id='startDate'
                         label="Start Date"
                         onChange={event => {
                           setActiveAvailId(avail.availId);
@@ -405,6 +414,7 @@ export const ListingCard = (props) => {
                         }}
                       />
                       <TextField
+                        id='endDate'
                         label="End Date"
                         onChange={event => {
                           setActiveAvailId(avail.availId);
@@ -439,7 +449,7 @@ export const ListingCard = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClosePub}>Cancel</Button>
-          <Button onClick={handleCloseYesPub}>Publish</Button>
+          <Button id="confirmPublishBtn" onClick={handleCloseYesPub}>Publish</Button>
         </DialogActions>
       </Dialog>
     </Box>
@@ -704,7 +714,14 @@ export const EditListingScreen = () => {
   return (
     <>
       {!isFetchingDetails &&
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '120vh'
+          }}
+        >
           {/* Thumbnail */}
           <img src={thumbnail} alt="Listing Thumbnail" />
           <Button
@@ -729,7 +746,7 @@ export const EditListingScreen = () => {
             required
           >
             <InputLabel htmlFor="component-filled">Title</InputLabel>
-            <FilledInput id="component-filled" value={title} onChange={event => setTitle(event.target.value)} />
+            <FilledInput id="editTitle" value={title} onChange={event => setTitle(event.target.value)} />
           </FormControl>
           {/* Property Type */}
           <TextField
@@ -821,8 +838,8 @@ export const EditListingScreen = () => {
               setCountry(newValue.label)
             }}
             required
-            inputValue={country}
-            value={country}
+            // inputValue={country}
+            // value={country}
           />
           {/* Price */}
           <TextField
@@ -1036,7 +1053,7 @@ export const EditListingScreen = () => {
             required
           />
           <Button onClick={() => { setCancelState(true); }}>Cancel</Button>
-          <Button onClick={updateListingDetails}>Update</Button>
+          <Button id="updateListingButton" onClick={updateListingDetails}>Update</Button>
         </Box>
       }
     </>
@@ -1373,6 +1390,7 @@ export const NewListingButton = (props) => {
   return (
     <>
       <Button
+        id="new-listing-button"
         style={{ display: loggedInState ? 'inline-flex' : 'none' }}
         onClick={handleClickOpen('paper')}
         endIcon={<AddLocationAltIcon />}
@@ -1387,7 +1405,15 @@ export const NewListingButton = (props) => {
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle id="scroll-dialog-title">Create a new listing</DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>
+        <DialogContent
+          dividers={scroll === 'paper'}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '500vh'
+          }}
+        >
           {/* Thumbnail */}
           <img src={thumbnail} alt="Listing Thumbnail" />
           <Button
@@ -1712,7 +1738,7 @@ export const NewListingButton = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createClose}>Create</Button>
+          <Button id='create-listing-button' onClick={createClose}>Create</Button>
         </DialogActions>
       </Dialog>
     </>
